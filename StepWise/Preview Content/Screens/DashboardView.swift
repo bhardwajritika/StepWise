@@ -52,6 +52,7 @@ struct DashboardView: View {
                         WeightLineChart(selectedStat: selectedStat, chartData: hkManager.weightData)
                         
                         
+                        
                     
                     }
                     
