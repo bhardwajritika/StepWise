@@ -35,7 +35,7 @@ struct ChartMath {
             let diff = weights[i].value - weights[i-1].value
             diffValues.append((date: date, value: diff))
         }
-        let sortedByWeekday = weights.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
+        let sortedByWeekday = diffValues.sorted { $0.date.weekdayInt < $1.date.weekdayInt }
         let weekdayArray = sortedByWeekday.chunked{ $0.date.weekdayInt == $1.date.weekdayInt }
         var weekdayChartData: [WeekdayChartData] = []
         
@@ -45,6 +45,13 @@ struct ChartMath {
             let avgWeightDiff = total / Double(array.count)
             
             weekdayChartData.append(.init(date: firstValue.date, value: avgWeightDiff))
+        }
+        for value in diffValues {
+            print("\(value.date) -- \(value.value)")
+        }
+        
+        for value in weekdayChartData {
+            print("\(value.date) -- \(value.value)")
         }
 
         

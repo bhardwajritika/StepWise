@@ -80,7 +80,7 @@ struct WeightDiffBarChart: View {
     
     var annotationView : some View {
         VStack (alignment: .leading){
-            Text(selectedData?.date ?? .now, format: .dateTime.weekday(.abbreviated).month(.abbreviated).day())
+            Text(selectedData?.date ?? .now, format: .dateTime.weekday(.abbreviated))
                 .font(.footnote.bold())
                 .foregroundStyle(.secondary)
             
