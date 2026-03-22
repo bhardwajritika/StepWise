@@ -10,6 +10,13 @@ import SwiftUI
 import HealthKit
 import Observation
 
+enum SWError: Error {
+    case authNotDetermined
+    case sharingDenied(for: String)
+    case noData
+    case unableToCompleteRequest
+}
+
 @Observable class HealthKitManager {
     
     let store = HKHealthStore()
@@ -20,7 +27,10 @@ import Observation
     var weightData : [HealthMetrics] = []
     var weightDiffData : [HealthMetrics] = []
     
-    func fetchStepCount() async {
+    func fetchStepCount() async throws {
+        guard store.authorizationStatus(for: HKQuantityType(.stepCount)) != .notDetermined else {
+            throw SWError.authNotDetermined
+        }
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: .now)
         let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
@@ -37,13 +47,18 @@ import Observation
             stepData = stepCounts.statistics().map {
                 .init(date: $0.startDate, value: $0.sumQuantity()?.doubleValue(for: .count()) ?? 0)
             }
+        } catch HKError.errorNoData{
+            throw SWError.noData
         } catch {
-            
+            throw SWError.unableToCompleteRequest
         }
                     
     }
     
-    func fetchWeights() async {
+    func fetchWeights() async throws {
+        guard store.authorizationStatus(for: HKQuantityType(.bodyMass)) != .notDetermined else {
+            throw SWError.authNotDetermined
+        }
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: .now)
         let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
@@ -61,13 +76,18 @@ import Observation
             weightData = weights.statistics().map {
                 .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
             }
+        } catch HKError.errorNoData{
+            throw SWError.noData
         } catch {
-            
+            throw SWError.unableToCompleteRequest
         }
         
     }
     
-    func fetchWeightForDifferentials() async {
+    func fetchWeightForDifferentials() async throws {
+        guard store.authorizationStatus(for: HKQuantityType(.bodyMass)) != .notDetermined else {
+            throw SWError.authNotDetermined
+        }
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: .now)
         let endDate = calendar.date(byAdding: .day, value: 1, to: today)!
@@ -85,22 +105,55 @@ import Observation
             weightDiffData = weights.statistics().map {
                 .init(date: $0.startDate, value: $0.mostRecentQuantity()?.doubleValue(for: .pound()) ?? 0)
             }
+        } catch HKError.errorNoData{
+            throw SWError.noData
         } catch {
-            
+            throw SWError.unableToCompleteRequest
         }
         
     }
     
-    func addStepData(for date: Date, value: Double) async {
+    func addStepData(for date: Date, value: Double) async throws {
+        let status = store.authorizationStatus(for: HKQuantityType(.stepCount))
+        switch status {
+        case .notDetermined :
+            throw SWError.authNotDetermined
+        case .sharingDenied:
+            throw SWError.sharingDenied(for: "step count")
+        case .sharingAuthorized:
+            break
+        @unknown default:
+            break
+        }
         let stepQuantity = HKQuantity(unit: .count(), doubleValue: value)
         let stepSample = HKQuantitySample(type: HKQuantityType(.stepCount), quantity: stepQuantity, start: date, end: date)
-        try! await store.save(stepSample)
+        do {
+            try await store.save(stepSample)
+        } catch {
+            throw SWError.unableToCompleteRequest
+        }
     }
     
-    func addWeightData(for date: Date, value: Double) async {
+    func addWeightData(for date: Date, value: Double) async throws {
+        let status = store.authorizationStatus(for: HKQuantityType(.bodyMass))
+        switch status {
+        case .notDetermined :
+            throw SWError.authNotDetermined
+        case .sharingDenied:
+            throw SWError.sharingDenied(for: "Weight data")
+        case .sharingAuthorized:
+            break
+        @unknown default:
+            break
+        }
+
         let weightQuantity = HKQuantity(unit: .pound(), doubleValue: value)
         let weightSample = HKQuantitySample(type: HKQuantityType(.bodyMass), quantity: weightQuantity, start: date, end: date)
-        try! await store.save(weightSample)
+        do {
+            try await store.save(weightSample)
+        } catch {
+            throw SWError.unableToCompleteRequest
+        }
     }
 
     

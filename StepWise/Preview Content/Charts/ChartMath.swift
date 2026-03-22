@@ -46,15 +46,6 @@ struct ChartMath {
             
             weekdayChartData.append(.init(date: firstValue.date, value: avgWeightDiff))
         }
-        for value in diffValues {
-            print("\(value.date) -- \(value.value)")
-        }
-        
-        for value in weekdayChartData {
-            print("\(value.date) -- \(value.value)")
-        }
-
-        
         return weekdayChartData
                 
     }
