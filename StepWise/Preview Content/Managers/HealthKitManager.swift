@@ -10,11 +10,37 @@ import SwiftUI
 import HealthKit
 import Observation
 
-enum SWError: Error {
+enum SWError: LocalizedError {
     case authNotDetermined
     case sharingDenied(for: String)
     case noData
     case unableToCompleteRequest
+    
+    var errorDescription: String? {
+        switch self {
+        case .authNotDetermined:
+            "Need access to Health Data"
+        case .sharingDenied(_):
+            "No Write Access"
+        case .noData:
+            "No Data"
+        case .unableToCompleteRequest:
+            "Unable to Complete Request"
+        }
+    }
+    
+    var failureReason: String {
+        switch self {
+        case .authNotDetermined:
+            "You have not given access to your Health Data. Please go to Settings > Health > Data Access & Devices"
+        case .sharingDenied(let quantityType):
+            "You have denied to upload your \(quantityType) data. \n\n You can change this in Settings > Health > Data Access & Devices"
+        case .noData:
+            "There is no data for this Health Statistics"
+        case .unableToCompleteRequest:
+            "We are unable to complete your request at this time.\n\n Please try again later or contact support"
+        }
+    }
 }
 
 @Observable class HealthKitManager {
@@ -28,6 +54,7 @@ enum SWError: Error {
     var weightDiffData : [HealthMetrics] = []
     
     func fetchStepCount() async throws {
+        
         guard store.authorizationStatus(for: HKQuantityType(.stepCount)) != .notDetermined else {
             throw SWError.authNotDetermined
         }
