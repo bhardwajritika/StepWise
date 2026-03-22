@@ -12,6 +12,31 @@ StepWise is a sleek and comprehensive iOS application that integrates directly w
   - **Daily Weight Differences:** Bar Charts detailing day-to-day weight fluctuations.
 - **Alerts & Permissions:** Graceful handling of HealthKit authorization, permissions priming, and data unavailability errors.
 
+- ## Screenshots
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="./SWScreenshots/StepScreen.png" width="250" /><br/>
+      <b>Step Screen</b>
+    </td>
+    <td align="center">
+      <img src="./SWScreenshots/Weightcreen.png" width="250" /><br/>
+      <b>Weight Screen</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="./SWScreenshots/StepCountPerday.png" width="250" /><br/>
+      <b>Step Data Screen</b>
+    </td>
+    <td align="center">
+      <img src="./SWScreenshots/WeightData.png" width="250" /><br/>
+      <b>Weight Data Screen</b>
+    </td>
+  </tr>
+</table>
+
 ## Technologies Used
 - **SwiftUI:** For an elegant and fluid user interface.
 - **HealthKit:** Seamless integration with iOS's native health data repository.
