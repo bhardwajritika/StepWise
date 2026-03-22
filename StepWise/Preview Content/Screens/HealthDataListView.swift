@@ -61,9 +61,9 @@ struct HealthDataListView: View {
             .alert(isPresented: $isShowingAlert,
                    error: writeError) { writeError in
                 switch writeError {
-                case .authNotDetermined, .unableToCompleteRequest, .noData:
+                case .authNotDetermined, .unableToCompleteRequest, .noData, .invalidValue:
                     EmptyView()
-                case .sharingDenied(let quantity):
+                case .sharingDenied(_):
                     Button("Settings") {
                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                     }
@@ -75,6 +75,12 @@ struct HealthDataListView: View {
             .toolbar{
                 ToolbarItem(placement: .topBarTrailing){
                     Button("Add Data"){
+                        guard let value = Double(valueToAdd) else {
+                            writeError = .invalidValue
+                            isShowingAlert = true
+                            valueToAdd = ""
+                            return
+                        }
                         Task {
                             if metric == .steps {
                                 do {

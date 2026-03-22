@@ -15,6 +15,7 @@ enum SWError: LocalizedError {
     case sharingDenied(for: String)
     case noData
     case unableToCompleteRequest
+    case invalidValue
     
     var errorDescription: String? {
         switch self {
@@ -26,6 +27,8 @@ enum SWError: LocalizedError {
             "No Data"
         case .unableToCompleteRequest:
             "Unable to Complete Request"
+        case .invalidValue:
+            "Invalid Value"
         }
     }
     
@@ -39,6 +42,8 @@ enum SWError: LocalizedError {
             "There is no data for this Health Statistics"
         case .unableToCompleteRequest:
             "We are unable to complete your request at this time.\n\n Please try again later or contact support"
+        case .invalidValue:
+            "Must be a numeric value with maximum of one decimal place"
         }
     }
 }
