@@ -13,7 +13,6 @@ struct HealthKitPermissionPrimingView: View {
     @Environment(HealthKitManager.self) private var hkManager
     @Environment(\.dismiss) private var dismiss
     @State private var isShowingHealthKitPermissions: Bool = false
-    @Binding var hasSeen : Bool
     
     var description = """
 This app displays your steps and weight data in interactive charts.
@@ -43,7 +42,6 @@ You can also add new steps and weight data to Apple Health through this app. You
         }
         .padding(30)
         .interactiveDismissDisabled()
-        .onAppear { hasSeen = true }
         .healthDataAccessRequest(store: hkManager.store,
                                  shareTypes: hkManager.type,
                                  readTypes: hkManager.type,
@@ -59,6 +57,6 @@ You can also add new steps and weight data to Apple Health through this app. You
 }
 
 #Preview {
-    HealthKitPermissionPrimingView(hasSeen: .constant(true))
+    HealthKitPermissionPrimingView()
         .environment(HealthKitManager())
 }

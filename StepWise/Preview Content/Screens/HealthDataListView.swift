@@ -61,15 +61,29 @@ struct HealthDataListView: View {
                     Button("Add Data"){
                         Task {
                             if metric == .steps {
-                               await hkManager.addStepData(for: addDataDate, value: Double(valueToAdd)!)
-                                await hkManager.fetchStepCount()
-                                isShowingAddData = false
+                                do {
+                                    try await hkManager.addStepData(for: addDataDate, value: Double(valueToAdd)!)
+                                    try await hkManager.fetchStepCount()
+                                    isShowingAddData = false
+                                } catch SWError.sharingDenied(let quantityType) {
+                                    print("Sharing denied for - \(quantityType)")
+                                } catch {
+                                    print("DataListView: Unable to compelte request")
+                                }
+                               
                             }
                             else {
-                                await hkManager.addWeightData(for: addDataDate, value: Double(valueToAdd)!)
-                                await hkManager.fetchWeights()
-                                await hkManager.fetchWeightForDifferentials()
-                                isShowingAddData = false
+                                do {
+                                    try await hkManager.addWeightData(for: addDataDate, value: Double(valueToAdd)!)
+                                    try await hkManager.fetchWeights()
+                                    try await hkManager.fetchWeightForDifferentials()
+                                    isShowingAddData = false
+                                } catch SWError.sharingDenied(let quantityType) {
+                                    print("Sharing denied for - \(quantityType)")
+                                } catch {
+                                    print("DataListView: Unable to compelte request")
+                                }
+
                             }
                         }
                     }
@@ -87,7 +101,7 @@ struct HealthDataListView: View {
 
 #Preview {
     NavigationStack {
-        HealthDataListView(metric: .steps)
+        HealthDataListView( metric: .steps)
             .environment(HealthKitManager())
     }
    
