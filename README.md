@@ -1,6 +1,6 @@
-# Step Tracker (StepWise)
+#  StepWise (Step Tracker)
 
-Step Tracker is a sleek and comprehensive iOS application that integrates directly with Apple's **HealthKit** framework. It beautifully visualizes the user's daily step counts and body weight fluctuations over time. With a custom dashboard built using **Swift Charts**, users can effortlessly monitor their health metrics and trends.
+StepWise is a sleek and comprehensive iOS application that integrates directly with Apple's **HealthKit** framework. It beautifully visualizes the user's daily step counts and body weight fluctuations over time. With a custom dashboard built using **Swift Charts**, users can effortlessly monitor their health metrics and trends.
 
 ## Features
 - **HealthKit Integration:** Securely requests and reads step count and body mass data directly from the user's Health app.
