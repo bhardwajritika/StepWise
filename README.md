@@ -21,7 +21,7 @@ StepWise is a sleek and comprehensive iOS application that integrates directly w
       <b>Step Screen</b>
     </td>
     <td align="center">
-      <img src="./SWScreenshots/Weightcreen.png" width="250" /><br/>
+      <img src="./SWScreenshots/WeightScreen.png" width="250" /><br/>
       <b>Weight Screen</b>
     </td>
   </tr>
