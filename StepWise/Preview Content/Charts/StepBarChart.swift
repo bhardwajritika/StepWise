@@ -11,8 +11,10 @@ import Charts
 struct StepBarChart: View {
     
     var selectedStat : HealthMetricsContext
+    
     var chartData : [HealthMetrics]
     @State private var rawSelectedDate: Date?
+    @State private var selectedDay: Date?
     
     var avgStepsCount: Double {
         guard !chartData.isEmpty else { return 0 }
@@ -91,6 +93,13 @@ struct StepBarChart: View {
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+        .sensoryFeedback(.selection, trigger: rawSelectedDate)
+        .onChange(of: rawSelectedDate) { oldValue, newValue in
+            if oldValue?.weekdayInt != newValue?.weekdayInt {
+                selectedDay = newValue
+            }
+            
+        }
     }
     
     var annotationView : some View {
