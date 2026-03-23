@@ -23,18 +23,7 @@ struct StepPieChart: View {
     }
     
     var body: some View {
-        VStack (alignment: .leading){
-            VStack(alignment: .leading) {
-                Label("Average", systemImage: "calendar")
-                    .font(.title3.bold())
-                    .foregroundStyle(.pink)
-                
-                Text("Last 28 days")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                
-            }
-            .padding(.bottom, 12)
+        ChartContainer(title: "Average", symbol: "calendar", subtitle: "Last 28 days", context: .steps, isNav: false) {
             
             if chartData.isEmpty {
                 ChartEmptyView(systemImageName: "chart.pie", title: "No Data", description: "There is no step count data from the Health App")
@@ -76,12 +65,6 @@ struct StepPieChart: View {
                     
                 }
             }
-        }
-        .padding()
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
-        .onChange(of: rawSelectedChartValue) {
-            oldValue, newValue in
-            
         }
     }
 }
