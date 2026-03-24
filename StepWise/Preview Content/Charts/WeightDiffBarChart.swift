@@ -19,7 +19,8 @@ struct WeightDiffBarChart: View {
     }
     
     var body: some View {
-        ChartContainer(title: "Average Weight Change", symbol: "figure", subtitle: "Per Weekday (Last 28 days)", context: .weight, isNav: false) {
+        let config = ChartContainerConfiguration(title: "Average Weight Change", symbol: "figure", subtitle: "Per Weekday (Last 28 days)", context: .weight, isNav: false)
+        ChartContainer(config: config){
             
             if chartData.isEmpty {
                 ChartEmptyView(systemImageName: "chart.bar", title: "No Data", description: "There is no weight data from the Health App")
@@ -27,16 +28,7 @@ struct WeightDiffBarChart: View {
             } else {
                 Chart {
                     if let selectedData {
-                        RuleMark(x: .value("Selected Data", selectedData.date, unit: .day))
-                            .foregroundStyle(Color.secondary.opacity(0.3))
-                            .offset(y: -10)
-                            .annotation(position: .top,
-                                        spacing: 0,
-                                        overflowResolution: .init(x: .fit(to: .chart),
-                                                                  y: .disabled)) {
-                                ChartAnnotationView(data: selectedData, context: .weight)
-                            }
-                    }
+                        ChartAnnotationView(data: selectedData, context: .weight)                    }
                     ForEach(chartData) {
                         weightDiff in
                         BarMark(

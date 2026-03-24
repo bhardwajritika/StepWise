@@ -23,7 +23,8 @@ struct StepPieChart: View {
     }
     
     var body: some View {
-        ChartContainer(title: "Average", symbol: "calendar", subtitle: "Last 28 days", context: .steps, isNav: false) {
+        let config = ChartContainerConfiguration(title: "Average", symbol: "calendar", subtitle: "Last 28 days", context: .steps, isNav: false)
+        ChartContainer(config: config){
             
             if chartData.isEmpty {
                 ChartEmptyView(systemImageName: "chart.pie", title: "No Data", description: "There is no step count data from the Health App")
