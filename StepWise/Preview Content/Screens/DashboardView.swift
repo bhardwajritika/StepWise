@@ -66,7 +66,7 @@ struct DashboardView: View {
                 HealthDataListView( metric: metric)
                 
             }
-            .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
+            .fullScreenCover(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
                 Task {
                     await fetchHealthData()
                 }

@@ -41,7 +41,6 @@ You can also add new steps and weight data to Apple Health through this app. You
             .tint(.pink)
         }
         .padding(30)
-        .interactiveDismissDisabled()
         .healthDataAccessRequest(store: hkManager.store,
                                  shareTypes: hkManager.type,
                                  readTypes: hkManager.type,
