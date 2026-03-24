@@ -13,16 +13,10 @@ extension Date {
     }
     
     var weekdayTitle : String {
-        switch weekdayInt {
-        case 1: return "Sunday"
-        case 2: return "Monday"
-        case 3: return "Tuesday"
-        case 4: return "Wednesday"
-        case 5: return "Thursday"
-        case 6: return "Friday"
-        case 7: return "Saturday"
-        default:
-            return ""
-        }
+        self.formatted(.dateTime.weekday(.wide))
+    }
+    
+    var accessibilityDate: String {
+        self.formatted(.dateTime.month(.wide).day())
     }
 }
