@@ -47,9 +47,14 @@ You can also add new steps and weight data to Apple Health through this app. You
                                  trigger: isShowingHealthKitPermissions) { result in
             switch result {
             case .success(_):
-                dismiss()
+                Task {
+                    @MainActor in dismiss()
+                }
+                
             case .failure(_):
-                dismiss()
+                Task {
+                    @MainActor in dismiss()
+                }
             }
         }
     }

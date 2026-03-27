@@ -11,16 +11,22 @@ import HealthKit
 import Observation
 
 
+@Observable
+@MainActor
+final class HealthKitData: Sendable{
+    var stepData : [HealthMetrics] = []
+    var weightData : [HealthMetrics] = []
+    var weightDiffData : [HealthMetrics] = []
+}
 
-@Observable class HealthKitManager {
+@Observable
+final class HealthKitManager: Sendable {
     
     let store = HKHealthStore()
     
     let type: Set = [HKQuantityType(.stepCount), HKQuantityType(.bodyMass)]
     
-    var stepData : [HealthMetrics] = []
-    var weightData : [HealthMetrics] = []
-    var weightDiffData : [HealthMetrics] = []
+   
     
     /// Fetch lats 28 days of step count from HealthKit
     /// - Returns: Array of ``HealthMetrics``

@@ -9,12 +9,14 @@ import SwiftUI
 
 @main
 struct StepWiseApp: App {
+    let hkData = HealthKitData()
     let hkManager = HealthKitManager()
     
     var body: some Scene {
        
         WindowGroup {
             DashboardView()
+                .environment(hkData)
                 .environment(hkManager)
         }
     }
