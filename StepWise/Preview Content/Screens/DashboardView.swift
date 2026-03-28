@@ -31,6 +31,10 @@ struct DashboardView: View {
     @State private var isShowingAlert = false
     @State private var fetchError : SWError = .noData
     
+    var backgroundColor: Color {
+        selectedStat == .steps ? .pink : .indigo
+    }
+    
     
     var body: some View {
         NavigationStack {
@@ -56,13 +60,17 @@ struct DashboardView: View {
                     
                     
                 }
+                .padding()
             }
-            .padding()
             .task {
                 await fetchHealthData()
                 
             }
             .navigationTitle(Text("Dashboard"))
+            .toolbarTitleDisplayMode(.inlineLarge)
+            .background(LinearGradient(colors: [backgroundColor.opacity(0.25), .clear],
+                                       startPoint: .topLeading,
+                                       endPoint: .bottomTrailing))
             .navigationDestination(for: HealthMetricsContext.self) { metric in
                 HealthDataListView( metric: metric)
                 
@@ -116,4 +124,5 @@ struct DashboardView: View {
 #Preview {
     DashboardView()
         .environment(HealthKitManager())
+        .environment(HealthKitData())
 }
