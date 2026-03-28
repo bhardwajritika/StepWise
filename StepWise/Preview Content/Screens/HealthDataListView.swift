@@ -38,6 +38,11 @@ struct HealthDataListView: View {
         .sheet(isPresented: $isShowingAddData) {
             addDataView
         }
+        .overlay {
+            if listData.isEmpty {
+                ContentUnavailableView("No \(metric.title) to Display", systemImage: metric == .steps ? "figure.walk" : "figure")
+            }
+        }
         .toolbar{
             Button("Add data", systemImage: "plus"){
                 isShowingAddData = true

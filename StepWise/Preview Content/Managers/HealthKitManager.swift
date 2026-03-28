@@ -151,6 +151,7 @@ final class HealthKitManager: Sendable {
     }
 
     
+    /// Function for mock data
 //    func addSimulatorData() async {
 //        var mockSamples: [HKQuantitySample] = []
 //        
