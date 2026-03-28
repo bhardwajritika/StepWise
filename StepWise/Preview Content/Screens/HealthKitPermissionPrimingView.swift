@@ -33,12 +33,10 @@ You can also add new steps and weight data to Apple Health through this app. You
                 
                 Text(description)
             }
-            
             Button("Connect Apple Health") {
                 isShowingHealthKitPermissions = true
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.pink)
+            .prominentButton(color: .pink)
         }
         .padding(30)
         .healthDataAccessRequest(store: hkManager.store,
